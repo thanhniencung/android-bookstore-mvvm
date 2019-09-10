@@ -44,30 +44,14 @@ public class SignInActivity extends AppCompatActivity {
                 String phone = editPhone.getEditableText().toString();
                 String password = editPassword.getEditableText().toString();
 
-                signViewViewModel.doLogin(phone, password);
-            }
-        });
-
-        handleSignSuccess();
-        handleSignInFail();
-    }
-
-    void handleSignSuccess() {
-        signViewViewModel.getSignInResponse().observe(this, new Observer<BaseResponse<User>>() {
-            @Override
-            public void onChanged(BaseResponse<User> userBaseResponse) {
-                tvSignStatus.setVisibility(View.INVISIBLE);
-                Toast.makeText(SignInActivity.this, "ok", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    void handleSignInFail() {
-        signViewViewModel.getSignInRestError().observe(this, new Observer<RestError>() {
-            @Override
-            public void onChanged(RestError restError) {
-                tvSignStatus.setVisibility(View.VISIBLE);
-                tvSignStatus.setText(restError.errMsg);
+                signViewViewModel.doLogin(phone, password,
+                   new SignViewViewModel.SignInCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        tvSignStatus.setVisibility(View.INVISIBLE);
+                        Toast.makeText(SignInActivity.this, "otoke", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
