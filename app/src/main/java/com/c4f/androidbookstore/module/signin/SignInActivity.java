@@ -1,23 +1,17 @@
 package com.c4f.androidbookstore.module.signin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
+import com.c4f.androidbookstore.MainActivity;
 import com.c4f.androidbookstore.R;
-import com.c4f.androidbookstore.model.BaseResponse;
-import com.c4f.androidbookstore.model.RestError;
-import com.c4f.androidbookstore.model.User;
-
-import javax.xml.transform.Templates;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView tvSignStatus;
@@ -40,18 +34,23 @@ public class SignInActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // handle click
                 String phone = editPhone.getEditableText().toString();
                 String password = editPassword.getEditableText().toString();
 
                 signViewViewModel.doLogin(phone, password,
-                   new SignViewViewModel.SignInCallBack() {
-                    @Override
-                    public void onSuccess(Object data) {
-                        tvSignStatus.setVisibility(View.INVISIBLE);
-                        Toast.makeText(SignInActivity.this, "otoke", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        new SignViewViewModel.SignInCallBack() {
+                            @Override
+                            public void onSuccess(Object data) {
+                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onError(int code, String msg) {
+                                tvSignStatus.setVisibility(View.VISIBLE);
+                                tvSignStatus.setText(msg);
+                            }
+                   });
             }
         });
     }

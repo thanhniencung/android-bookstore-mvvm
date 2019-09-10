@@ -1,10 +1,10 @@
 package com.c4f.androidbookstore.module.splash;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.c4f.androidbookstore.R;
 import com.c4f.androidbookstore.module.signin.SignInActivity;
