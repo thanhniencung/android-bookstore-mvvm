@@ -12,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.c4f.androidbookstore.MainActivity;
 import com.c4f.androidbookstore.R;
+import com.c4f.androidbookstore.data.local.UserTable;
+import com.c4f.androidbookstore.data.repo.UserRepo;
+import com.c4f.androidbookstore.data.service.UserService;
+import com.c4f.androidbookstore.network.BookStoreApi;
 
 public class SignInActivity extends AppCompatActivity {
     private TextView tvSignStatus;
@@ -30,6 +34,11 @@ public class SignInActivity extends AppCompatActivity {
 
         signViewViewModel =
                 SignViewViewModel.of(this);
+
+        signViewViewModel.inject(new UserRepo(
+                new UserTable(),
+                BookStoreApi.getUserService()
+        ));
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.c4f.androidbookstore.data.repo.UserRepo;
 import com.c4f.androidbookstore.model.BaseResponse;
 import com.c4f.androidbookstore.model.User;
 import com.c4f.androidbookstore.network.BookStoreApi;
@@ -13,10 +14,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class SignViewViewModel extends ViewModel {
+    private UserRepo userRepo;
 
     public static SignViewViewModel of(AppCompatActivity activity) {
         return ViewModelProviders.of(activity)
                 .get(SignViewViewModel.class);
+    }
+
+    void inject(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     void doLogin(String phone, String pass, final SignInCallBack callBack) {
@@ -24,10 +30,7 @@ public class SignViewViewModel extends ViewModel {
             return;
         }
 
-        BookStoreApi.getUserService()
-                .signIn(User.signInRequestBody(phone, pass))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        userRepo.signIn(User.signInRequestBody(phone, pass))
                 .subscribe(new RestResponse<BaseResponse<User>>() {
                     @Override
                     public void onData(BaseResponse<User> data) {
