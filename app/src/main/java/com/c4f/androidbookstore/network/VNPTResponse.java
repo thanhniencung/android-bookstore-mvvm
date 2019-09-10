@@ -1,5 +1,7 @@
 package com.c4f.androidbookstore.network;
 
+import com.c4f.androidbookstore.model.RestError;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,15 +13,21 @@ public abstract class VNPTResponse<T> implements Callback<T> {
         if (response.isSuccessful()) {
             onData(response.body());
         } else {
-            onError(response.code());
+            RestError restError = new RestError();
+            restError.code = response.code();
+            restError.errMsg = "Đăng nhập không thành công";
+            onError(restError);
         }
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        onError(UNKNOWN);
+        RestError restError = new RestError();
+        restError.code = UNKNOWN;
+        restError.errMsg = t.getMessage();
+        onError(restError);
     }
 
     public abstract void onData(T data);
-    public abstract void onError(int code);
+    public abstract void onError(RestError error);
 }
