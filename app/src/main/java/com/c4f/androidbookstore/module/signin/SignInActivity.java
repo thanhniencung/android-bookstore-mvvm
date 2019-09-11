@@ -39,7 +39,7 @@ public class SignInActivity extends AppCompatActivity {
 
         signViewViewModel.inject(new UserRepo(
                 new UserTable(),
-                BookStoreApi.getUserService()
+                BookStoreApi.getInstance().getUserService()
         ));
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {

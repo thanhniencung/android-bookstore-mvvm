@@ -1,6 +1,7 @@
 package com.c4f.androidbookstore.module.home;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +12,15 @@ import com.c4f.androidbookstore.R;
 import com.c4f.androidbookstore.base.BaseActivity;
 import com.c4f.androidbookstore.data.repo.ProductRepo;
 import com.c4f.androidbookstore.data.service.ProductService;
+import com.c4f.androidbookstore.event.ImageClickEvent;
 import com.c4f.androidbookstore.model.Product;
 import com.c4f.androidbookstore.module.home.adapter.ProductAdapter;
 import com.c4f.androidbookstore.network.BookStoreApi;
 import com.c4f.androidbookstore.network.NetworkCallback;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -30,7 +36,7 @@ public class HomeActivity extends BaseActivity {
 
         homeViewModel = new HomeViewModel();
         homeViewModel.inject(new ProductRepo(
-                BookStoreApi.getProductService()
+                BookStoreApi.getInstance().getProductService()
         ));
 
         homeViewModel.getProductList(new NetworkCallback<List<Product>>() {
@@ -66,5 +72,22 @@ public class HomeActivity extends BaseActivity {
         recyclerView.setAdapter(productAdapter);
 
         productAdapter.setData(data);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onImageClickEvent(ImageClickEvent event) {
+        Toast.makeText(this, "image clicked", Toast.LENGTH_SHORT).show();
     }
 }

@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.c4f.androidbookstore.R;
+import com.c4f.androidbookstore.event.ImageClickEvent;
 import com.c4f.androidbookstore.model.Product;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.RepoView
             ivProduct = itemView.findViewById(R.id.ivProduct);
             tvProductitle = itemView.findViewById(R.id.tvProductTitle);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+
+            ivProduct.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(
+                            new ImageClickEvent());
+                }
+            });
         }
     }
 }
