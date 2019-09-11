@@ -7,11 +7,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.c4f.androidbookstore.data.repo.UserRepo;
 import com.c4f.androidbookstore.model.BaseResponse;
 import com.c4f.androidbookstore.model.User;
-import com.c4f.androidbookstore.network.BookStoreApi;
+import com.c4f.androidbookstore.network.NetworkCallback;
 import com.c4f.androidbookstore.network.RestResponse;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class SignViewViewModel extends ViewModel {
     private UserRepo userRepo;
@@ -25,7 +22,7 @@ public class SignViewViewModel extends ViewModel {
         this.userRepo = userRepo;
     }
 
-    void doLogin(String phone, String pass, final SignInCallBack callBack) {
+    void doLogin(String phone, String pass, final NetworkCallback callBack) {
         if (phone.isEmpty() || pass.isEmpty()) {
             return;
         }
@@ -43,10 +40,5 @@ public class SignViewViewModel extends ViewModel {
                     }
                 });
 
-    }
-
-    public interface SignInCallBack<T> {
-        void onSuccess(T data);
-        void onError(int code, String msg);
     }
 }

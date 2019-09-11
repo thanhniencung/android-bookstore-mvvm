@@ -1,13 +1,9 @@
 package com.c4f.androidbookstore.data.repo;
 
-import com.c4f.androidbookstore.data.local.OrderTable;
 import com.c4f.androidbookstore.data.local.UserTable;
-import com.c4f.androidbookstore.data.service.OrderService;
 import com.c4f.androidbookstore.data.service.UserService;
 import com.c4f.androidbookstore.model.BaseResponse;
 import com.c4f.androidbookstore.model.User;
-import com.c4f.androidbookstore.network.BookStoreApi;
-import com.c4f.androidbookstore.network.RestResponse;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;

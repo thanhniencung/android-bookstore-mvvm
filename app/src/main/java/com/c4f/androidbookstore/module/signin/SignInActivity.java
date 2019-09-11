@@ -14,10 +14,11 @@ import com.c4f.androidbookstore.MainActivity;
 import com.c4f.androidbookstore.R;
 import com.c4f.androidbookstore.data.local.UserTable;
 import com.c4f.androidbookstore.data.repo.UserRepo;
-import com.c4f.androidbookstore.data.service.UserService;
 import com.c4f.androidbookstore.network.BookStoreApi;
+import com.c4f.androidbookstore.network.NetworkCallback;
 
 public class SignInActivity extends AppCompatActivity {
+
     private TextView tvSignStatus;
     private EditText editPhone;
     private EditText editPassword;
@@ -47,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
                 String password = editPassword.getEditableText().toString();
 
                 signViewViewModel.doLogin(phone, password,
-                        new SignViewViewModel.SignInCallBack() {
+                        new NetworkCallback() {
                             @Override
                             public void onSuccess(Object data) {
                                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
