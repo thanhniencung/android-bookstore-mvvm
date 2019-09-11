@@ -1,10 +1,15 @@
 package com.c4f.androidbookstore.module.signin;
 
+import android.app.Activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.c4f.androidbookstore.BookStoreApplication;
+import com.c4f.androidbookstore.data.constant.Constant;
 import com.c4f.androidbookstore.data.repo.UserRepo;
+import com.c4f.androidbookstore.helper.SPref;
 import com.c4f.androidbookstore.model.BaseResponse;
 import com.c4f.androidbookstore.model.User;
 import com.c4f.androidbookstore.network.NetworkCallback;
@@ -31,6 +36,12 @@ public class SignViewViewModel extends ViewModel {
                 .subscribe(new RestResponse<BaseResponse<User>>() {
                     @Override
                     public void onData(BaseResponse<User> data) {
+                        // caching token
+                        SPref.setSharedPreferenceString(
+                                BookStoreApplication.getApp(),
+                                Constant.User.KEY_TOKEN,
+                                data.getData().getToken());
+
                         callBack.onSuccess(data);
                     }
 

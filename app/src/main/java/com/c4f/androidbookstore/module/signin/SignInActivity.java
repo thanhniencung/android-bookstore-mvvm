@@ -14,6 +14,7 @@ import com.c4f.androidbookstore.MainActivity;
 import com.c4f.androidbookstore.R;
 import com.c4f.androidbookstore.data.local.UserTable;
 import com.c4f.androidbookstore.data.repo.UserRepo;
+import com.c4f.androidbookstore.module.home.HomeActivity;
 import com.c4f.androidbookstore.network.BookStoreApi;
 import com.c4f.androidbookstore.network.NetworkCallback;
 
@@ -51,8 +52,9 @@ public class SignInActivity extends AppCompatActivity {
                         new NetworkCallback() {
                             @Override
                             public void onSuccess(Object data) {
-                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
 
                             @Override

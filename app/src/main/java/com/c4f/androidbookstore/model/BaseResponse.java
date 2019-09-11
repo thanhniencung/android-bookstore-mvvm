@@ -22,4 +22,8 @@ public class BaseResponse<T> {
 
     @SerializedName("data")
     T data;
+
+    public T getData() {
+        return data;
+    }
 }
